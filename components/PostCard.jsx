@@ -38,8 +38,7 @@ const PostCard = ({ post }) => {
                 </div>
             </div>  
             <p className='text-center text-lg text-gray-700 font-normal px-4 lg:px-20 mb-8'>
-                {/* {post.excerpt} */}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus libero, temporibus mollitia sunt nobis cumque odio magni amet deleniti eos minus numquam, quas nihil aut odit, architecto voluptatem veritatis sequi.
+              {post.excerpt}
             </p>
             <div className='text-center'>
                 <Link href={`/post/${post.slug}`}>
