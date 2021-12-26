@@ -2,6 +2,8 @@ import { request, gql } from 'graphql-request';
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
 
+// ==== These queries are about Posts =====
+
 export const getPosts = async () => {
   const query = gql`
     query MyQuery {
@@ -33,25 +35,8 @@ export const getPosts = async () => {
       }
     }
   `;
-
   const result = await request(graphqlAPI, query);
-
   return result.postsConnection.edges;
-};
-
-export const getCategories = async () => {
-  const query = gql`
-    query GetGategories {
-        categories {
-          name
-          slug
-        }
-    }
-  `;
-
-  const result = await request(graphqlAPI, query);
-
-  return result.categories;
 };
 
 export const getPostDetails = async (slug) => {
@@ -82,9 +67,7 @@ export const getPostDetails = async (slug) => {
       }
     }
   `;
-
   const result = await request(graphqlAPI, query, { slug });
-
   return result.post;
 };
 
@@ -105,7 +88,6 @@ export const getSimilarPosts = async (categories, slug) => {
     }
   `;
   const result = await request(graphqlAPI, query, { slug, categories });
-
   return result.posts;
 };
 
@@ -138,11 +120,54 @@ export const getAdjacentPosts = async (createdAt, slug) => {
       }
     }
   `;
-
   const result = await request(graphqlAPI, query, { slug, createdAt });
-
   return { next: result.next[0], previous: result.previous[0] };
 };
+
+export const getFeaturedPosts = async () => {
+  const query = gql`
+    query GetCategoryPost() {
+      posts(where: {featuredPost: true}) {
+        author {
+          name
+          photo {
+            url
+          }
+        }
+        featuredImage {
+          url
+        }
+        title
+        slug
+        createdAt
+      }
+    }   
+  `;
+  const result = await request(graphqlAPI, query);
+  return result.posts;
+};
+
+export const getRecentPosts = async () => {
+  const query = gql`
+    query GetPostDetails() {
+      posts(
+        orderBy: createdAt_ASC
+        last: 3
+      ) {
+        title
+        featuredImage {
+          url
+        }
+        createdAt
+        slug
+      }
+    }
+  `;
+  const result = await request(graphqlAPI, query);
+  return result.posts;
+};
+
+// ==== These queries are about Categories =====
 
 export const getCategoryPost = async (slug) => {
   const query = gql`
@@ -175,36 +200,24 @@ export const getCategoryPost = async (slug) => {
       }
     }
   `;
-
   const result = await request(graphqlAPI, query, { slug });
-
   return result.postsConnection.edges;
 };
 
-export const getFeaturedPosts = async () => {
+export const getCategories = async () => {
   const query = gql`
-    query GetCategoryPost() {
-      posts(where: {featuredPost: true}) {
-        author {
+    query GetGategories {
+        categories {
           name
-          photo {
-            url
-          }
+          slug
         }
-        featuredImage {
-          url
-        }
-        title
-        slug
-        createdAt
-      }
-    }   
+    }
   `;
-
   const result = await request(graphqlAPI, query);
-
-  return result.posts;
+  return result.categories;
 };
+
+// ==== These queries are about Comments =====
 
 export const submitComment = async (obj) => {
   const result = await fetch('/api/comments', {
@@ -214,7 +227,6 @@ export const submitComment = async (obj) => {
     },
     body: JSON.stringify(obj),
   });
-
   return result.json();
 };
 
@@ -228,29 +240,21 @@ export const getComments = async (slug) => {
       }
     }
   `;
-
   const result = await request(graphqlAPI, query, { slug });
-
   return result.comments;
 };
 
-export const getRecentPosts = async () => {
-  const query = gql`
-    query GetPostDetails() {
-      posts(
-        orderBy: createdAt_ASC
-        last: 3
-      ) {
-        title
-        featuredImage {
-          url
-        }
-        createdAt
-        slug
-      }
-    }
-  `;
-  const result = await request(graphqlAPI, query);
 
-  return result.posts;
+// ==== These queries are about The Contact Form =====
+
+export const submitContactMsg = async (obj) => {
+  const result = await fetch('/api/contact', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(obj),
+  });
+  return result.json();
 };
+
