@@ -20,7 +20,6 @@ const Header = () => {
       }
     }, []);
 
-    console.log(click)
     return (
         <div className='container mx-auto px-10 mb-8'>
             <div className='sm:flex sm:flex-row sm:items-center xs:flex xs:flex-row xs:items-center md:!inline-block justify-between border-b w-full border-blue-400 py-8'>
