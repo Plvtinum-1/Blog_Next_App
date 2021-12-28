@@ -55,3 +55,12 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+.active {
+  .fill {
+    transform: skew(120deg, 120deg) scale(5);
+    background: #fd5c63;
+  }
+}
+
