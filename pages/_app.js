@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import Script from 'next/script'
 import '../styles/global.scss';
-import 'tailwindcss/tailwind.css'
 import { useRouter } from 'next/router'
 import * as gtag from '../lib/gtag'
 import { Layout } from '../components'
