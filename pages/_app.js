@@ -1,9 +1,12 @@
 import { useEffect } from 'react'
 import Script from 'next/script'
+import '../styles/global.scss';
+import 'tailwindcss/tailwind.css'
 import { useRouter } from 'next/router'
 import * as gtag from '../lib/gtag'
+import { Layout } from '../components'
 
-const App = ({ Component, pageProps }) => {
+const MyApp = ({ Component, pageProps }) => {
   const router = useRouter()
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -38,9 +41,11 @@ const App = ({ Component, pageProps }) => {
           `,
         }}
       />
+      <Layout>
       <Component {...pageProps} />
+      </Layout>
     </>
   )
 }
 
-export default App
+export default MyApp
